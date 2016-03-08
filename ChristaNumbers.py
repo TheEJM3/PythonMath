@@ -89,15 +89,19 @@ print "Writen by TheEJM3 with Christa in mind. <3"
 min = input('Enter Min Iterations: ')
 #ending number of a
 max = input('Enter Max Iterations: ')
+#gives updates at inputed iterations
+iterations = input('Enter Update Rate: ')
 
 #counter of a, will add the 1 back @ line 111
 count = min - 1
 #grabs the int divide for multiplier and modulo for count
-multiplier, count = divmod(count, 5000)
+multiplier, count = divmod(count, iterations)
 #for multiplication @ line 119, will be 5k off otherwise
 multiplier = multiplier + 1
 #grabs the start time
 startTime = time.time()
+#prints start time
+print "Start Time:",time.strftime("%H:%M:%S", time.localtime(startTime))
 
 #opens the .csv file and writes the header
 with open('AmicablePairs.csv', 'ab') as datafile:
@@ -111,12 +115,13 @@ for CLP in xrange(min, max + 1):
 	#starts counting the iterations
 	count = count + 1
 
-	#every 5k iteration it records the time and where it's at
-	if count == 5000:
+	#every x # of iterations it records the time and where it's at
+	if count == iterations:
 		currentTime = time.time()
 		duration = currentTime - startTime
+		print "[",time.strftime("%H:%M:%S", time.localtime(currentTime)), "]",
 		print "[",time.strftime("%H:%M:%S", time.gmtime(duration)), "]",
-		print "Iteration", '{:,}'.format(int(5000 * multiplier))
+		print "Iteration", '{:,}'.format(int(iterations * multiplier))
 		count = 0
 		multiplier = multiplier + 1
 
@@ -170,6 +175,7 @@ for CLP in xrange(min, max + 1):
 										#and a value on screen and in file
 										currentTime = time.time()
 										duration = currentTime - startTime
+										print "[", time.strftime("%H:%M:%S", time.localtime(currentTime)),"]",
 										print "[", time.strftime("%H:%M:%S", time.gmtime(duration)),"]",
 										print '{:,}'.format(int(M)),"and", '{:,}'.format(int(N)),
 										print "are in love!  a = ", '{:,}'.format(int(CLP))
