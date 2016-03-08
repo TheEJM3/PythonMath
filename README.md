@@ -1,4 +1,5 @@
-This is a collection of Python scripts to calculate integer sequences.
+This is a collection of Python scripts to calculate integer sequences
+and other fun number stuff.
 
 Fib.py simply compiles the Fibinacci sequence from 1 to what ever number is
 entered, then divides the last number in the sequence by the previous number
@@ -26,3 +27,15 @@ The paper takes Euler's proof and simplifies it to four steps:
 canidates for an amicable pair.
 I read that Euler's proof only gave two, known false positives, but this
 proof gives more.  I'm not sure if the paper is correct.  More to come on this.
+
+ExpOfTwo.py calculates the exponets of 2 from 2^0 to 2^x where x is defined by 
+the user. My coworker told me about a game his and his son play in the car.  
+They take 1 then double it, and double it, and double it, etc... until they 
+can't compute the next one in their head.  I wrote this code mostly to show 
+him how this calculation could be done in Python.  He pointed out that their 
+record is 2^25.  Not bad, Justin.  Not bad at all.
+
+FactorsOfSquare.py is a simple code that prints all factors of a number squared. 
+I wrote this one as a prototype for the ChristaNumbers.py script.  It might be 
+helpful for someone else that needs a script like this, but a more universal 
+function was ultimately written for use in the ChristaNumbers.py script.
