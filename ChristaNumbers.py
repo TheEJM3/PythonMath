@@ -69,6 +69,8 @@ def love_test(n,m):
 			return True
 
 #standard prime number checker
+#copied from stackoverflow.com user "dawg" in this post: 
+#http://stackoverflow.com/questions/15285534/isprime-function-for-python-language
 def is_prime(n):
 	if n == 2 or n == 3: return True
 	if n < 2 or n%2 == 0: return False
@@ -92,11 +94,11 @@ max = input('Enter Max Iterations: ')
 #gives updates at inputed iterations
 iterations = input('Enter Update Rate: ')
 
-#counter of a, will add the 1 back @ line 111
+#counter of a, will add the 1 back @ line 118
 count = min - 1
 #grabs the int divide for multiplier and modulo for count
 multiplier, count = divmod(count, iterations)
-#for multiplication @ line 119, will be 5k off otherwise
+#for multiplication @ line 126, will be 5k off otherwise
 multiplier = multiplier + 1
 #grabs the start time
 startTime = time.time()
