@@ -89,100 +89,76 @@ print "Amicable Numbers - Euler Style"
 print "Writen by TheEJM3 with Christa in mind. <3"
 
 #starting number of a
-min = input('Enter Min Iterations: ')
-#ending number of a
-max = input('Enter Max Iterations: ')
-#gives updates at inputed iterations
-iterations = input('Enter Update Rate: ')
+a = input('Enter "a": ')
 
-#counter of a, will add the 1 back @ line 118
-count = min - 1
-#grabs the int divide for multiplier and modulo for count
-multiplier, count = divmod(count, iterations)
-#for multiplication @ line 126, will be 5k off otherwise
-multiplier = multiplier + 1
 #grabs the start time
 startTime = time.time()
 #prints start time
 print "Start Time:",time.strftime("%H:%M:%S", time.localtime(startTime))
 
 #opens the .csv file and writes the header
-with open('AmicablePairs.csv', 'ab') as datafile:
+with open('AmicablePairsAnalysis.csv', 'ab') as datafile:
 	csv_writer = csv.writer(datafile, delimiter=',')
 	data = ["Time Elap","a =", "M =", "N =",]
 	csv_writer.writerow(data)
 
 #main function
-for CLP in itertools.count(min, max + 1):
 
-	#starts counting the iterations
-	count = count + 1
+#calculates the sum of factors of current iteration
+o = factor_sum(a)
 
-	#every x # of iterations it records the time and where it's at
-	if count == iterations:
-		currentTime = time.time()
-		duration = currentTime - startTime
-		print "[",time.strftime("%H:%M:%S", time.localtime(currentTime)), "]",
-		print "[",time.strftime("%H:%M:%S", time.gmtime(duration)), "]",
-		print "Iteration", '{:,}'.format(int(iterations * multiplier))
-		count = 0
-		multiplier = multiplier + 1
+#if iteration is not a perfect number...
+if (2 * a - o) != 0:
 
-	#calculates the sum of factors of current iteration
-	o = factor_sum(CLP)
+	#finds the simplest form of b/c
+	Step2 = Fraction(int(a), int((2*a - o)))
 
-	#if iteration is not a perfect number...
-	if (2 * CLP - o) != 0:
+	#b = the numerator
+	b = Step2.numerator
+	#c = the demoninator
+	c = Step2.denominator
 
-		#finds the simplest form of b/c
-		Step2 = Fraction(int(CLP), int((2*CLP - o)))
+	#squares b
+	square = b**2
 
-		#b = the numerator
-		b = Step2.numerator
-		#c = the demoninator
-		c = Step2.denominator
-
-		#squares b
-		square = b**2
-
-		#this is where the magic happens...
-		#we are trying to get the values of x and y in (cx-b)(cy-b)=b^2
-		for n in itertools.count(1, b + 1):
-			#from 1 to the square root, z = b^2/n
-			z = square/float(n)
-			#if z is an integer, then we have a value for (cx-b) and (cy-b)
-			if (z).is_integer():
-				#find x in (cx-b)
-				x = (z + b) / c
-				#x must be an integer or else it won't work
-				if (x).is_integer():
-					#find y in (cy-b)
-					y = (float(n) + b) / c
-					#y must be an integer or else it won't work
-					if (y).is_integer():
-						#Prime check time! p=x-1, q=y-1 and
-						#r=xy-1 all must be primes
-						p = x - 1
-						if is_prime(p):
-							q = y - 1
-							if is_prime(q):
-								r = (x*y) - 1
-								#if they are all primes, then M=apq and
-								#N=ar are canidates for amicability
-								if is_prime(r):
-									M = CLP * p * q
-									N = CLP * r
-									#check M and N using the brute-force method in love_test
-									if love_test(int(N), int(M)):
-										#if they are lovers, print the numbers, time,
-										#and a value on screen and in file
-										currentTime = time.time()
-										duration = currentTime - startTime
-										print "[", time.strftime("%H:%M:%S", time.localtime(currentTime)),"]",
-										print "[", time.strftime("%H:%M:%S", time.gmtime(duration)),"]",
-										print '{:,}'.format(int(M)),"and", '{:,}'.format(int(N)),
-										print "are in love!  a = ", '{:,}'.format(int(CLP))
-										with open('AmicablePairs.csv', 'ab') as datafile:
-											csv_writer = csv.writer(datafile, delimiter=',')
-											data = [time.strftime("%H:%M:%S", time.gmtime(duration)),CLP, M, N,]
-											csv_writer.writerow(data)
+	#this is where the magic happens...
+	#we are trying to get the values of x and y in (cx-b)(cy-b)=b^2
+	for n in itertools.count(1, b + 1):
+		#from 1 to the square root, z = b^2/n
+		z = square/float(n)
+		#if z is an integer, then we have a value for (cx-b) and (cy-b)
+		if (z).is_integer():
+			#find x in (cx-b)
+			x = (z + b) / c
+			#x must be an integer or else it won't work
+			if (x).is_integer():
+				#find y in (cy-b)
+				y = (float(n) + b) / c
+				#y must be an integer or else it won't work
+				if (y).is_integer():
+					#Prime check time! p=x-1, q=y-1 and
+					#r=xy-1 all must be primes
+					p = x - 1
+					if is_prime(p):
+						q = y - 1
+						if is_prime(q):
+							r = (x*y) - 1
+							#if they are all primes, then M=apq and
+							#N=ar are canidates for amicability
+							if is_prime(r):
+								M = a * p * q
+								N = a * r
+								#check M and N using the brute-force method in love_test
+								if love_test(int(N), int(M)):
+									#if they are lovers, print the numbers, time,
+									#and a value on screen and in file
+									currentTime = time.time()
+									duration = currentTime - startTime
+									print "[", time.strftime("%H:%M:%S", time.localtime(currentTime)),"]",
+									print "[", time.strftime("%H:%M:%S", time.gmtime(duration)),"]",
+									print '{:,}'.format(int(M)),"and", '{:,}'.format(int(N)),
+									print "are in love!  a = ", '{:,}'.format(int(a))
+									with open('AmicablePairs.csv', 'ab') as datafile:
+										csv_writer = csv.writer(datafile, delimiter=',')
+										data = [time.strftime("%H:%M:%S", time.gmtime(duration)),a, M, N,]
+										csv_writer.writerow(data)
