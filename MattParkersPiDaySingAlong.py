@@ -1,3 +1,4 @@
+import math
 from decimal import *
 getcontext().prec = 50
 
@@ -8,6 +9,6 @@ if max < 2:
 	
 runsum = Decimal(0.0)
 	
-for x in xrange(1, max):
-	runsum = runsum + (Decimal(1.000) / x)
-	print runsum
+for x in xrange(2, max+2):
+	runsum = runsum + (((-1)**x)*(Decimal(1.000)/(x+(x-3)))))
+	print "x =", x, runsum
