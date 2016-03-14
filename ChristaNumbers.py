@@ -40,8 +40,8 @@ def factor_sum(n):
 	#running sum of factors
 	runSum = 0
 	#range from 1 to sqrt
-	for x in itertools.count(1, int(n**.5+1)):
-		if x != int(n**.5+1):
+	for x in itertools.count(1):
+		if x < int(n**.5+1):
 			#divides input by range
 			y = n/float(x)
 			#checks if calc returns int
@@ -54,6 +54,8 @@ def factor_sum(n):
 				else:
 					#running sum adds factors
 					runSum = runSum + y + x
+		else:
+			break
 	#function returns sum of factors
 	return runSum
 
@@ -114,8 +116,8 @@ with open('AmicablePairs.csv', 'ab') as datafile:
 	csv_writer.writerow(data)
 
 #main function
-for CLP in itertools.count(min, 1):
-	if CLP != max + 1:
+for CLP in itertools.count(min):
+	if CLP < max + 1:
 	
 	#starts counting the iterations
 		count = count + 1
@@ -149,8 +151,8 @@ for CLP in itertools.count(min, 1):
 
 			#this is where the magic happens...
 			#we are trying to get the values of x and y in (cx-b)(cy-b)=b^2
-			for n in itertools.count(1, 1):
-				if n != b + 1:
+			for n in itertools.count(1):
+				if n < b + 1:
 					#from 1 to the square root, z = b^2/n
 					z = square/float(n)
 					#if z is an integer, then we have a value for (cx-b) and (cy-b)
@@ -189,3 +191,7 @@ for CLP in itertools.count(min, 1):
 													csv_writer = csv.writer(datafile, delimiter=',')
 													data = [time.strftime("%H:%M:%S", time.gmtime(duration)),CLP, M, N,]
 													csv_writer.writerow(data)
+				else:
+					break
+	else:
+		break

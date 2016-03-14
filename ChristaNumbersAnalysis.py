@@ -1,4 +1,4 @@
-#Amicable Numbers Generator using Euler's method
+#Amicable Numbers Analyzer - Euler's method
 
 #Edward J. McLean III
 #March 5th, 2016
@@ -40,19 +40,22 @@ def factor_sum(n):
 	#running sum of factors
 	runSum = 0
 	#range from 1 to sqrt
-	for x in itertools.count(1, int(n**.5+1)):
-		#divides input by range
-		y = n/float(x)
-		#checks if calc returns int
-		if (y).is_integer():
-			#only counts each factor once
-			if y == x:
-				#running sum adds factors
-				runSum = runSum + x
-			#if x and y are different
-			else:
-				#running sum adds factors
-				runSum = runSum + y + x
+	for x in itertools.count(1):
+		if x < int(n**.5+1):
+			#divides input by range
+			y = n/float(x)
+			#checks if calc returns int
+			if (y).is_integer():
+				#only counts each factor once
+				if y == x:
+					#running sum adds factors
+					runSum = runSum + x
+				#if x and y are different
+				else:
+					#running sum adds factors
+					runSum = runSum + y + x
+		else:
+			break
 	#function returns sum of factors
 	return runSum
 
@@ -99,7 +102,9 @@ print "Start Time:",time.strftime("%H:%M:%S", time.localtime(startTime))
 #opens the .csv file and writes the header
 with open('AmicablePairsAnalysis.csv', 'ab') as datafile:
 	csv_writer = csv.writer(datafile, delimiter=',')
-	data = ["Time Elap","a =", "M =", "N =",]
+	data = ["Amicable Pair Analysis",]
+	csv_writer.writerow(data)
+	data = ["a =", a,]
 	csv_writer.writerow(data)
 
 #main function
@@ -117,48 +122,80 @@ if (2 * a - o) != 0:
 	b = Step2.numerator
 	#c = the demoninator
 	c = Step2.denominator
+	
+	with open('AmicablePairsAnalysis.csv', 'ab') as datafile:
+		csv_writer = csv.writer(datafile, delimiter=',')
+		data = ["b =", b,]
+		csv_writer.writerow(data)
+		data = ["c =", c,]
+		csv_writer.writerow(data)
+		data = ["% Complete", "(cx-b) =", "(cy-b) =", "factor?", "x =", "is x a factor?", "y =", "is y a factor?", "p =", "p prime?", "q =", "q prime?", "r =", "r prime?", "M =", "N =", "love_test()?", ]
+		csv_writer.writerow(data)
 
 	#squares b
 	square = b**2
 
 	#this is where the magic happens...
 	#we are trying to get the values of x and y in (cx-b)(cy-b)=b^2
-	for n in itertools.count(1, b + 1):
-		#from 1 to the square root, z = b^2/n
-		z = square/float(n)
-		#if z is an integer, then we have a value for (cx-b) and (cy-b)
-		if (z).is_integer():
-			#find x in (cx-b)
-			x = (z + b) / c
-			#x must be an integer or else it won't work
-			if (x).is_integer():
-				#find y in (cy-b)
-				y = (float(n) + b) / c
-				#y must be an integer or else it won't work
-				if (y).is_integer():
-					#Prime check time! p=x-1, q=y-1 and
-					#r=xy-1 all must be primes
-					p = x - 1
-					if is_prime(p):
-						q = y - 1
-						if is_prime(q):
-							r = (x*y) - 1
-							#if they are all primes, then M=apq and
-							#N=ar are canidates for amicability
-							if is_prime(r):
-								M = a * p * q
-								N = a * r
-								#check M and N using the brute-force method in love_test
-								if love_test(int(N), int(M)):
-									#if they are lovers, print the numbers, time,
-									#and a value on screen and in file
-									currentTime = time.time()
-									duration = currentTime - startTime
-									print "[", time.strftime("%H:%M:%S", time.localtime(currentTime)),"]",
-									print "[", time.strftime("%H:%M:%S", time.gmtime(duration)),"]",
-									print '{:,}'.format(int(M)),"and", '{:,}'.format(int(N)),
-									print "are in love!  a = ", '{:,}'.format(int(a))
-									with open('AmicablePairs.csv', 'ab') as datafile:
-										csv_writer = csv.writer(datafile, delimiter=',')
-										data = [time.strftime("%H:%M:%S", time.gmtime(duration)),a, M, N,]
-										csv_writer.writerow(data)
+	for n in itertools.count(1):
+		x = ""
+		isxInteger = ""
+		y = ""
+		isyInteger = ""
+		p = ""
+		ispPrime = ""
+		q = ""
+		isqPrime = ""
+		r = ""
+		isrPrime = ""
+		M = ""
+		N = ""
+		love = ""
+		if n < b + 1:
+			#from 1 to the square root, z = b^2/n
+			z = square/float(n)
+			#if z is an integer, then we have a value for (cx-b) and (cy-b)
+			factorOfb = (z).is_integer()
+			if factorOfb:
+				#find x in (cx-b)
+				x = (z + b) / c
+				#x must be an integer or else it won't work
+				isxInteger = (x).is_integer()
+				if isxInteger:
+					#find y in (cy-b)
+					y = (float(n) + b) / c
+					#y must be an integer or else it won't work
+					isyInteger = (y).is_integer()
+					if isyInteger:
+						#Prime check time! p=x-1, q=y-1 and
+						#r=xy-1 all must be primes
+						p = x - 1
+						ispPrime = is_prime(p)
+						if ispPrime:
+							q = y - 1
+							isqPrime = is_prime(q)
+							if isqPrime:
+								r = (x*y) - 1
+								#if they are all primes, then M=apq and
+								#N=ar are canidates for amicability
+								isrPrime = is_prime(r)
+								if isrPrime:
+									M = a * p * q
+									N = a * r
+									#check M and N using the brute-force method in love_test
+									love = love_test(int(N), int(M))
+									if love:
+										#if they are lovers, print the numbers, time,
+										#and a value on screen and in file
+										currentTime = time.time()
+										duration = currentTime - startTime
+										print "[", time.strftime("%H:%M:%S", time.localtime(currentTime)),"]",
+										print "[", time.strftime("%H:%M:%S", time.gmtime(duration)),"]",
+										print '{:,}'.format(int(M)),"and", '{:,}'.format(int(N)),
+										print "are in love!  a = ", '{:,}'.format(int(a))
+			with open('AmicablePairsAnalysis.csv', 'ab') as datafile:
+				csv_writer = csv.writer(datafile, delimiter=',')
+				data = ['{percent:.2%}'.format(percent=n/float(b)), n, z, factorOfb, x, isxInteger, y, isyInteger, p, ispPrime, q, isqPrime, r, isrPrime, M, N, love,]
+				csv_writer.writerow(data)
+		else:
+			break
