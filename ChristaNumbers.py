@@ -32,6 +32,7 @@
 import math
 import time
 import csv
+import itertools
 from fractions import Fraction
 
 #Sums all factors of n
@@ -39,19 +40,22 @@ def factor_sum(n):
 	#running sum of factors
 	runSum = 0
 	#range from 1 to sqrt
-	for x in xrange(1, int(n**.5+1)):
-		#divides input by range
-		y = n/float(x)
-		#checks if calc returns int
-		if (y).is_integer():
-			#only counts each factor once
-			if y == x:
-				#running sum adds factors
-				runSum = runSum + x
-			#if x and y are different
-			else:
-				#running sum adds factors
-				runSum = runSum + y + x
+	for x in itertools.count(1):
+		if x < int(n**.5+1):
+			#divides input by range
+			y = n/float(x)
+			#checks if calc returns int
+			if (y).is_integer():
+				#only counts each factor once
+				if y == x:
+					#running sum adds factors
+					runSum = runSum + x
+				#if x and y are different
+				else:
+					#running sum adds factors
+					runSum = runSum + y + x
+		else:
+			break
 	#function returns sum of factors
 	return runSum
 
@@ -112,76 +116,82 @@ with open('AmicablePairs.csv', 'ab') as datafile:
 	csv_writer.writerow(data)
 
 #main function
-for CLP in xrange(min, max + 1):
-
+for CLP in itertools.count(min):
+	if CLP < max + 1:
+	
 	#starts counting the iterations
-	count = count + 1
+		count = count + 1
 
-	#every x # of iterations it records the time and where it's at
-	if count == iterations:
-		currentTime = time.time()
-		duration = currentTime - startTime
-		print "[",time.strftime("%H:%M:%S", time.localtime(currentTime)), "]",
-		print "[",time.strftime("%H:%M:%S", time.gmtime(duration)), "]",
-		print "Iteration", '{:,}'.format(int(iterations * multiplier))
-		count = 0
-		multiplier = multiplier + 1
+		#every x # of iterations it records the time and where it's at
+		if count == iterations:
+			currentTime = time.time()
+			duration = currentTime - startTime
+			print "[",time.strftime("%H:%M:%S", time.localtime(currentTime)), "]",
+			print "[",time.strftime("%H:%M:%S", time.gmtime(duration)), "]",
+			print "Iteration", '{:,}'.format(int(iterations * multiplier))
+			count = 0
+			multiplier = multiplier + 1
 
-	#calculates the sum of factors of current iteration
-	o = factor_sum(CLP)
+		#calculates the sum of factors of current iteration
+		o = factor_sum(CLP)
 
-	#if iteration is not a perfect number...
-	if (2 * CLP - o) != 0:
+		#if iteration is not a perfect number...
+		if (2 * CLP - o) != 0:
 
-		#finds the simplest form of b/c
-		Step2 = Fraction(int(CLP), int((2*CLP - o)))
+			#finds the simplest form of b/c
+			Step2 = Fraction(int(CLP), int((2*CLP - o)))
 
-		#b = the numerator
-		b = Step2.numerator
-		#c = the demoninator
-		c = Step2.denominator
+			#b = the numerator
+			b = Step2.numerator
+			#c = the demoninator
+			c = Step2.denominator
 
-		#squares b
-		square = b**2
+			#squares b
+			square = b**2
 
-		#this is where the magic happens...
-		#we are trying to get the values of x and y in (cx-b)(cy-b)=b^2
-		for n in xrange(1, b + 1):
-			#from 1 to the square root, z = b^2/n
-			z = square/float(n)
-			#if z is an integer, then we have a value for (cx-b) and (cy-b)
-			if (z).is_integer():
-				#find x in (cx-b)
-				x = (z + b) / c
-				#x must be an integer or else it won't work
-				if (x).is_integer():
-					#find y in (cy-b)
-					y = (float(n) + b) / c
-					#y must be an integer or else it won't work
-					if (y).is_integer():
-						#Prime check time! p=x-1, q=y-1 and
-						#r=xy-1 all must be primes
-						p = x - 1
-						if is_prime(p):
-							q = y - 1
-							if is_prime(q):
-								r = (x*y) - 1
-								#if they are all primes, then M=apq and
-								#N=ar are canidates for amicability
-								if is_prime(r):
-									M = CLP * p * q
-									N = CLP * r
-									#check M and N using the brute-force method in love_test
-									if love_test(int(N), int(M)):
-										#if they are lovers, print the numbers, time,
-										#and a value on screen and in file
-										currentTime = time.time()
-										duration = currentTime - startTime
-										print "[", time.strftime("%H:%M:%S", time.localtime(currentTime)),"]",
-										print "[", time.strftime("%H:%M:%S", time.gmtime(duration)),"]",
-										print '{:,}'.format(int(M)),"and", '{:,}'.format(int(N)),
-										print "are in love!  a = ", '{:,}'.format(int(CLP))
-										with open('AmicablePairs.csv', 'ab') as datafile:
-											csv_writer = csv.writer(datafile, delimiter=',')
-											data = [time.strftime("%H:%M:%S", time.gmtime(duration)),CLP, M, N,]
-											csv_writer.writerow(data)
+			#this is where the magic happens...
+			#we are trying to get the values of x and y in (cx-b)(cy-b)=b^2
+			for n in itertools.count(1):
+				if n < b + 1:
+					#from 1 to the square root, z = b^2/n
+					z = square/float(n)
+					#if z is an integer, then we have a value for (cx-b) and (cy-b)
+					if (z).is_integer():
+						#find x in (cx-b)
+						x = (z + b) / c
+						#x must be an integer or else it won't work
+						if (x).is_integer():
+							#find y in (cy-b)
+							y = (float(n) + b) / c
+							#y must be an integer or else it won't work
+							if (y).is_integer():
+								#Prime check time! p=x-1, q=y-1 and
+								#r=xy-1 all must be primes
+								p = x - 1
+								if is_prime(p):
+									q = y - 1
+									if is_prime(q):
+										r = (x*y) - 1
+										#if they are all primes, then M=apq and
+										#N=ar are canidates for amicability
+										if is_prime(r):
+											M = CLP * p * q
+											N = CLP * r
+											#check M and N using the brute-force method in love_test
+											if love_test(int(N), int(M)):
+												#if they are lovers, print the numbers, time,
+												#and a value on screen and in file
+												currentTime = time.time()
+												duration = currentTime - startTime
+												print "[", time.strftime("%H:%M:%S", time.localtime(currentTime)),"]",
+												print "[", time.strftime("%H:%M:%S", time.gmtime(duration)),"]",
+												print '{:,}'.format(int(M)),"and", '{:,}'.format(int(N)),
+												print "are in love!  a = ", '{:,}'.format(int(CLP))
+												with open('AmicablePairs.csv', 'ab') as datafile:
+													csv_writer = csv.writer(datafile, delimiter=',')
+													data = [time.strftime("%H:%M:%S", time.gmtime(duration)),CLP, M, N,]
+													csv_writer.writerow(data)
+				else:
+					break
+	else:
+		break
