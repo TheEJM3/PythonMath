@@ -10,6 +10,7 @@
 #He did the first 10 fractions by hand ending on ...-1/19 and
 #the sum was 3.04.  I wanted to know exactly how many fractions
 #it would take to get a decimal accurate to 314 digits of pi.
+#check out the vid here: https://youtu.be/HrRMnzANHHs
 
 #Using the script below, I figured out that the difference 
 #between the sum and pi is slightly less than 1/# of fractions. For 
