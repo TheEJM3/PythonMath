@@ -27,13 +27,13 @@ runsum = Decimal(0.0)
 #starts on 2 because -1^x will return + on each odd fraction
 x = 2
 #variable used for periodic, printed updates
-y = 1
+y = 0
 #iterations will stop at this amount
 max = input("Enter Max Iterations: ")
 #screen output at each time this amount is reached
 z = input("Enter Update Rate: ")
 #main loop:
-for n in xrange((x-2), max):
+for n in xrange((x-1), max+1):
 	#returns next fraction then sums the previous fractions with current
 	runsum = runsum + (((-1)**x)*(Decimal(1.000)/(x+(x-3))))
 	#updates current count
@@ -41,12 +41,13 @@ for n in xrange((x-2), max):
 	#updates current x value
 	x = x + 1
 	#if current count matches update rate, print update
-	if y == z + 1:
-		print "x =", x-2
+	if y == z:
+		print "# of fractions in series =", x-2
 		print "Current sum of factors =", runsum*4
 		print "Difference between sum and pi=", Decimal(runsum*4) - pi
-		y = 1
+		print ""
+		y = 0
 #when completed, print final values
-print "x =", x-2
+print "# of fractions in series =", x-2
 print "Current sum of factors =", runsum*4
 print "Difference between sum and pi=", Decimal(runsum*4) - pi
