@@ -61,16 +61,8 @@ def factor_sum(n):
 
 #function returns amicable pairs
 def love_test(n,m):
-	#returns sum of factors of 1st input
-	N = factor_sum(n) - n
-	#check if sum of factors matches 2nd input
-	if N == m:
-		#returns sum of factors of 2nd input
-		M = factor_sum(m) - m
-		#if second sum matches 1st input...
-		if M == n:
-			#return matched pair is amicable
-			return True
+	if factor_sum(n) == n + m:
+		return True
 
 #standard prime number checker
 #copied from stackoverflow.com user "dawg" in this post: 

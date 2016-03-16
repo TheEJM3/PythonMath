@@ -61,16 +61,8 @@ def factor_sum(n):
 
 #function returns amicable pairs
 def love_test(n,m):
-	#returns sum of factors of 1st input
-	N = factor_sum(n) - n
-	#check if sum of factors matches 2nd input
-	if N == m:
-		#returns sum of factors of 2nd input
-		M = factor_sum(m) - m
-		#if second sum matches 1st input...
-		if M == n:
-			#return matched pair is amicable
-			return True
+	if factor_sum(n) == n + m:
+		return True
 
 #standard prime number checker
 #copied from stackoverflow.com user "dawg" in this post: 
@@ -119,9 +111,9 @@ if (2 * a - o) != 0:
 	Step2 = Fraction(int(a), int((2*a - o)))
 
 	#b = the numerator
-	b = Step2.numerator
+	b = abs(Step2.numerator)
 	#c = the demoninator
-	c = Step2.denominator
+	c = abs(Step2.denominator)
 	
 	with open('AmicablePairsAnalysis.csv', 'ab') as datafile:
 		csv_writer = csv.writer(datafile, delimiter=',')
