@@ -17,6 +17,8 @@
 
 #Enjoy!
 
+import time
+
 #Sums all factors of n
 def factor_sum(n):
 	#running sum of factors
@@ -55,6 +57,9 @@ def love_test(n):
 min = input ("Enter starting number:")
 #sets upper limit of range
 max = input ("Enter ending number:")
+startTime = time.time()
+
+print "Start Time:",time.strftime("%H:%M:%S", time.localtime(startTime))
 
 #Runs through each number in range
 for x in range (min, max + 1):
@@ -63,5 +68,14 @@ for x in range (min, max + 1):
 		#caluculate other member of pair
 		N = factor_sum(x) - x
 		#print the lovebirds
+		currentTime = time.time()
+		duration = currentTime - startTime
+		print "[", time.strftime("%H:%M:%S", time.localtime(currentTime)),"]",
+		print "[", time.strftime("%H:%M:%S", time.gmtime(duration)),"]",
 		print '{:,}'.format(int(x)),"and",
 		print '{:,}'.format(int(N)), "are in love!"
+
+currentTime = time.time()
+duration = currentTime - startTime
+print "End Time:",time.strftime("%H:%M:%S", time.localtime(startTime))
+print "Time Elapsed:", time.strftime("%H:%M:%S", time.gmtime(duration))
