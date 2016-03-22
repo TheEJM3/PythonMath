@@ -1,4 +1,4 @@
-def sigma(n):
+def sig(n):
 	#running sum of factors
 	runSum = 0
 	#range from 1 to sqrt
@@ -18,7 +18,7 @@ def sigma(n):
 	#function returns sum of factors
 	return int(runSum)
 
-def factorize(n):
+def fact(n):
 	if n<=2:
 		return []
 	sieve=[True]*(n+1)
@@ -38,7 +38,7 @@ def factorize(n):
 	factorization.sort()
 	return factorization
 	
-def multiplicities(n):
+def multi(n):
 	if n<=2:
 		return []
 	sieve=[True]*(n+1)
@@ -57,10 +57,23 @@ def multiplicities(n):
 	factorization = [[p,primeFactors.count(p)] for p in set(primeFactors)]
 	factorization.sort()
 	
-	multi = []
+	multiplicities	= []
 	for [x, y] in factorization:
 		if y == 1:
-			multi.append(x+1)
+			multiplicities.append(x+1)
 		else:
-			multi.append(((x**(y+1))-1)/(x-1))
-	return multi
+			multiplicities.append(((x**(y+1))-1)/(x-1))
+	return multiplicities
+	
+def prime(n):
+	if n == 2 or n == 3: return True
+	if n < 2 or n%2 == 0: return False
+	if n < 9: return True
+	if n%3 == 0: return False
+	r = int(n**0.5)
+	f = 5
+	while f <= r:
+		if n%f == 0: return False
+		if n%(f+2) == 0: return False
+		f +=6
+	return True
