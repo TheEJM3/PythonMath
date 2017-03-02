@@ -16,15 +16,15 @@
 
 from random import randint 
 
-print " "
-print " "
+print(" ") 
+print(" ")
 
-print "Random Chamber Pinning for the"
-print "Lockpicking Advent Calendar, March 2017"
-print "Coded by TheEJM3"
-print "https://www.youtube.com/channel/UCiv7jEOluBBXM3ystrNlRJw"
+print("Random Chamber Pinning for the")
+print("Lockpicking Advent Calendar, March 2017")
+print("Coded by TheEJM3")
+print("https://www.youtube.com/channel/UCiv7jEOluBBXM3ystrNlRJw")
 
-print " "
+print(" ")
 
 i = 1
 
@@ -79,8 +79,8 @@ while i <= 6: #Replace "6" with the number of chambers in your lock.
 	#and spring combination each time the program loops.
 
 	
-	print "Chamber %d: Use a %s pin with a %s spring" % (
-		i, pin, spring)
+	print("Chamber %d: Use a %s pin with a %s spring" % (
+		i, pin, spring))
 		
 	#If you want to add a third challenge option, for example to vary the key pin type (standard or 
 	#serrated), then a fourth variable can be added below the "if s == 1" section.  We can use "k" as 
