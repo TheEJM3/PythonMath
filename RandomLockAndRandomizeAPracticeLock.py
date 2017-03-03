@@ -16,8 +16,8 @@
 #   different driver pin types (standard, spool, serrated, etc...), key pin
 #   types, key bittings, and spring types.
 
-# To use this code to pick a random lock to pick, set the "NoOfChambers" in the
-# "Randomize a Practice Lock" section to "0"
+#To use this code to pick a random lock to pick, set the "NoOfChambers"
+#on line 49 to "0"
 
 
 from random import randint
@@ -27,7 +27,7 @@ from random import randint
 #For a random lock to pick, type the lock names between the quotations and
 #the code will pick one of them.  If you only want a random lock from a 
 #set of 4, only fill out four and leave the rest at "". Leave the "NoOfChambers"
-#set to 0 in the "Randomize a practice lock" section below.
+#set to 0 on line 49.
 
 #You must type something between the "" of at least one of the locks below:
 Lock1 = "Abus 83"
